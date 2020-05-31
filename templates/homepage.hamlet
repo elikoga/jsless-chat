@@ -1,0 +1,22 @@
+<div .container>
+    <!-- Forms
+        ================================================== -->
+    <div .bs-docs-section>
+        <div .row>
+            <div .col-lg-12>
+                <div .page-header>
+                    <h1 #forms>Forms
+
+                    <p>
+                        This is an example of a form. Read the
+                        <a href="http://www.yesodweb.com/book/forms">Forms chapter</a> #
+                        in the yesod book to learn more about them.
+
+        <div .row>
+            <div .col-lg-6>
+                <div .bs-callout bs-callout-info well>
+                    <form .form-horizontal method=post action=@{HomeR} enctype=#{formEnctype}>
+                        ^{formWidget}
+
+                        <button .btn.btn-primary type="submit">
+                            Log In
