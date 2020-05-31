@@ -18,11 +18,10 @@ flushingConduit = forever $ do
     maybeValue <- await
     case maybeValue of
         (Just value) -> do
-            liftIO $ print "Hello"
             yield $ Chunk value
             yield Flush
         Nothing -> return ()
-    
+
 byteStringToBuilderConduit :: Monad m => ConduitT ByteString Builder.Builder m ()
 byteStringToBuilderConduit = mapC Builder.fromByteString
 
@@ -30,7 +29,7 @@ messageChannelToByteStringConduit :: Monad m => ConduitT Message ByteString m ()
 messageChannelToByteStringConduit = mapC messageToByteString
 
 messageToByteString :: Message -> ByteString
-messageToByteString msg = fromString $ renderHtml [shamlet|<p> <b>#{username msg}</b>: #{content msg}|]
+messageToByteString msg = fromString $ renderHtml [shamlet|<p> <b>#{senderUsername msg}</b>: #{messageContent msg}|]
 
 channelToConduit :: MonadIO m => TChan o -> ConduitT i o m ()
 channelToConduit chan = repeatMC $ atomically $ readTChan chan
