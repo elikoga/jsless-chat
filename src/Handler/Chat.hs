@@ -10,6 +10,7 @@ import Import
 import Handler.Common
 import Handler.Chat.MessageConduit
 import Handler.Chat.PageGeneration
+import Handler.Chat.ChatHandlers
 import Types.Message
 import Text.Blaze.Html.Renderer.Pretty
 import Conduit
@@ -35,10 +36,6 @@ postChatR = do
         FormSuccess msg -> msgSendHandler msg
         _ -> return ()
 
-noUserNameHandler :: Handler a
-noUserNameHandler = do
-    setMessage [shamlet|You haven't selected a username.|]
-    redirect HomeR
 
 chatHandler :: Text -> TVar (Set Text) -> Handler TypedContent
 chatHandler username loggedInTVar = do
@@ -55,31 +52,15 @@ chatHandler username loggedInTVar = do
 chatSiteConduit :: TChan Message -> Text -> (Route (HandlerSite (HandlerFor App)) -> Text) -> ConduitT () (Flush Builder.Builder) (HandlerFor site) ()
 chatSiteConduit userChannel pageText urlRender = do
         sendChunk pageText
-        sendChunk $ renderHtml [shamlet|<iframe name="dummyframe" id="dummyframe" style="display: none;">"|]
         sendChunkText "<div id=\"chat\">"
-        sendChunk $ renderHtml $ [hamlet|<form method="post" action="#{urlRender ChatR}" target="dummyframe">
-    <input name="Message" type="text" required value>
-    <button class="btn btn-primary" type="submit">
-        Send!
-    <button class="btn btn-primary" type="reset">|] ()
+        sendChunk $ renderHtml [shamlet|<iframe src=#{urlRender ChatSubmitR}>|]
+
         sendChunkText "<div id=\"msgBox\">"
 
         -- To fill the buffer such that the browser immediately displays Contents.
-        yieldMany $ join (replicate 200 [Flush, Chunk $ Builder.fromByteString "<div></div>"] :: [[Flush Builder.Builder]])
+        yieldMany $ join (replicate 2000 [Flush, Chunk $ Builder.fromByteString "<div></div>"] :: [[Flush Builder.Builder]])
 
         messageChannelToConduit userChannel
-
-
-msgSendHandler :: Text -> Handler ()
-msgSendHandler msg = do
-    mUsername <- lookupSession "username"
-    case mUsername of
-        Nothing -> noUserNameHandler
-        Just username -> do
-            masterChannel <- getsYesod chatChan
-            let message = Message username msg
-            atomically $ writeTChan masterChannel message
-            return ()
 
 messageForm :: FormInput Handler Text
 messageForm = ireq textField "Message"

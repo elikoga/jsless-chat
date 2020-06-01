@@ -1,0 +1,5 @@
+<form .form-horizontal method=post action=@{ChatSubmitR} enctype=#{formEnctype}>
+    ^{formWidget}
+
+    <button .btn.btn-primary type="submit">
+        Send!

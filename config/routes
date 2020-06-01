@@ -8,3 +8,4 @@
 
 / HomeR GET POST
 /chat ChatR GET POST
+/chat/submit ChatSubmitR GET POST

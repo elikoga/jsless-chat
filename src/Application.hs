@@ -41,6 +41,7 @@ import qualified Data.Set as Set
 import Handler.Common
 import Handler.Home
 import Handler.Chat
+import Handler.ChatSubmit
 
 mkYesodDispatch "App" resourcesApp
 
