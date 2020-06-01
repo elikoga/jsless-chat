@@ -1,10 +1,10 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ViewPatterns #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE RecordWildCards       #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE ViewPatterns          #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Application
     ( getApplicationDev
@@ -19,29 +19,24 @@ module Application
     , handler
     ) where
 
-import Control.Monad.Logger                 (liftLoc)
-import Import
-import Language.Haskell.TH.Syntax           (qLocation)
-import Network.HTTP.Client.TLS              (getGlobalManager)
-import Network.Wai (Middleware)
-import Network.Wai.Handler.Warp             (Settings, defaultSettings,
-                                             defaultShouldDisplayException,
-                                             runSettings, setHost,
-                                             setOnException, setPort, getPort)
-import Network.Wai.Middleware.RequestLogger (Destination (Logger),
-                                             IPAddrSource (..),
-                                             OutputFormat (..), destination,
-                                             mkRequestLogger, outputFormat)
-import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
-                                             toLogStr)
-
+import           Control.Monad.Logger (liftLoc)
 import qualified Data.Set as Set
-
-
-import Handler.Common
-import Handler.Home
-import Handler.Chat
-import Handler.ChatSubmit
+import           Handler.Chat
+import           Handler.ChatSubmit
+import           Handler.Common
+import           Handler.Home
+import           Import
+import           Language.Haskell.TH.Syntax (qLocation)
+import           Network.HTTP.Client.TLS (getGlobalManager)
+import           Network.Wai (Middleware)
+import           Network.Wai.Handler.Warp (Settings, defaultSettings,
+                                           defaultShouldDisplayException,
+                                           runSettings, setHost,
+                                           setOnException, setPort, getPort)
+import           Network.Wai.Middleware.RequestLogger (Destination (Logger), IPAddrSource (..),
+                                                       OutputFormat (..), destination,
+                                                       mkRequestLogger, outputFormat)
+import           System.Log.FastLogger (defaultBufSize, newStdoutLoggerSet, toLogStr)
 
 mkYesodDispatch "App" resourcesApp
 

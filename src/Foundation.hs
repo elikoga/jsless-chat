@@ -1,21 +1,21 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE InstanceSigs          #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ViewPatterns #-}
-{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE ViewPatterns          #-}
 
 module Foundation where
 
-import Import.NoFoundation
-import Types.Message
-import Control.Monad.Logger        (LogSource)
-import Text.Hamlet                 (hamletFile)
-import Text.Jasmine                (minifym)
-import Yesod.Core.Types            (Logger)
-import Yesod.Default.Util          (addStaticContentExternal)
+import           Control.Monad.Logger        (LogSource)
+import           Import.NoFoundation
+import           Text.Hamlet                 (hamletFile)
+import           Text.Jasmine                (minifym)
+import           Types.Message
+import           Yesod.Core.Types            (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
+import           Yesod.Default.Util          (addStaticContentExternal)
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application

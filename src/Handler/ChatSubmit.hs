@@ -1,15 +1,16 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
+
 module Handler.ChatSubmit where
 
-import Text.Hamlet (hamletFile)
+import Handler.Chat.ChatHandlers
 
 import Import
-import Handler.Chat.ChatHandlers
+import Text.Hamlet               (hamletFile)
 
 getChatSubmitR :: Handler Html
 getChatSubmitR = do
@@ -27,10 +28,10 @@ postChatSubmitR = do
 
 submitForm :: Form Text
 submitForm = renderDivs $ areq textField fieldSettings Nothing
-    where fieldSettings = FieldSettings { fsLabel = "Message"
-                                        , fsTooltip = Nothing
-                                        , fsId = Nothing
-                                        , fsName = Just "Message"
-                                        , fsAttrs = []
-                                        }
-
+    where fieldSettings = FieldSettings
+            { fsLabel = "Message"
+            , fsTooltip = Nothing
+            , fsId = Nothing
+            , fsName = Just "Message"
+            , fsAttrs = []
+            }

@@ -1,14 +1,14 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE TypeFamilies          #-}
 module Handler.Chat.MessageConduit where
 
-import Import
-import Types.Message
 import qualified Data.Binary.Builder as Builder
-import Text.Blaze.Html.Renderer.Pretty
+import           Import
+import           Text.Blaze.Html.Renderer.Pretty
+import           Types.Message
 
 messageChannelToConduit :: MonadIO m => TChan Message -> ConduitT i (Flush Builder.Builder) m ()
 messageChannelToConduit chan = channelToConduit chan .| messageChannelToByteStringConduit .| byteStringToBuilderConduit .| flushingConduit

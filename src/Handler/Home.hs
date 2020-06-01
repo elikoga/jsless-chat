@@ -1,13 +1,13 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
 module Handler.Home where
 
-import Import
 import Handler.Common
+import Import
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
 
 type Username = Text
@@ -29,7 +29,6 @@ postHomeR = do
 
 usernameForm :: Maybe Text -> Form Username
 usernameForm presetUsername = renderBootstrap3 BootstrapBasicForm $ areq textField textSettings presetUsername
-    -- Add attributes like the placeholder and CSS classes.
     where textSettings = FieldSettings
             { fsLabel = "Username?"
             , fsTooltip = Nothing
