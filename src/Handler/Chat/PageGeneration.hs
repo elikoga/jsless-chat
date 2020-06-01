@@ -10,10 +10,10 @@ import Text.StringRandom
 import Text.Blaze.Html.Renderer.Pretty
 import qualified Data.List.Split as Split
 
-defaultLayoutPrefix :: Handler Text
-defaultLayoutPrefix = do
-    randomIdentifier <- liftIO $ stringRandomIO "[0-9A-z]{15}" 
-    site <- defaultLayout $ [whamlet|#{randomIdentifier}|]
+layoutPrefix :: (Widget -> Handler Html) -> Handler Text
+layoutPrefix layout = do
+    randomIdentifier <- liftIO $ stringRandomIO "[0-9A-z]{15}"
+    site <- layout $ [whamlet|#{randomIdentifier}|]
     let siteString = renderHtml site
     let before:after:[] = Split.splitOn (unpack randomIdentifier) siteString
     return $ fromString before

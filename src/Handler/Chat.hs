@@ -44,7 +44,7 @@ chatHandler :: Text -> TVar (Set Text) -> Handler TypedContent
 chatHandler username loggedInTVar = do
     masterChannel <- getsYesod chatChan
     userChannel <- atomically $ dupTChan masterChannel
-    pageText <- defaultLayoutPrefix
+    pageText <- layoutPrefix defaultLayout
     urlRender <- getUrlRender
 
     respondSource "text/html" $ bracketP
@@ -66,6 +66,7 @@ chatSiteConduit userChannel pageText urlRender = do
 
         -- To fill the buffer such that the browser immediately displays Contents.
         yieldMany $ join (replicate 200 [Flush, Chunk $ Builder.fromByteString "<div></div>"] :: [[Flush Builder.Builder]])
+
         messageChannelToConduit userChannel
 
 
